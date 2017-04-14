@@ -38,10 +38,14 @@ if [ -z "$BORG_REPO" ]; then
 else
 
   if [ -z "$PRUNE_PARAMS" ]; then
-    PRUNE_PARAMS='--keep-daily=7 --keep-weekly=4 --keep-monthly=6'
+    PRUNE_PARAMS='--prefix="auto_" --keep-daily=7 --keep-weekly=4 --keep-monthly=6'
   fi
 
-  BACKUP_COMMAND="/usr/bin/borg create -v --stats --show-rc $CREATE_PARAMS ::auto_{now:%Y-%m-%d} /backup && /usr/bin/borg prune -v --stats --show-rc $PRUNE_PARAMS && /usr/bin/borg check -v --show-rc"
+  if [ -z "$ARCHIVE" ]; then
+    ARCHIVE='auto_{now:%Y-%m-%d}'
+  fi
+
+  BACKUP_COMMAND="/usr/bin/borg create -v --stats --show-rc $CREATE_PARAMS ::$ARCHIVE /backup && /usr/bin/borg prune -v --stats --show-rc $PRUNE_PARAMS && /usr/bin/borg check -v --show-rc"
 
   borg init || true
 

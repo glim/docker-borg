@@ -50,7 +50,7 @@ else
   borg init || true
 
   if [ -z "$CRON_SCHEDULE" ]; then
-    CRON_SCHEDULE='0 0 * * *'
+    CRON_SCHEDULE='0 7 * * *'
   fi
 
   (crontab -l ; echo "$CRON_SCHEDULE $BACKUP_COMMAND") | crontab -

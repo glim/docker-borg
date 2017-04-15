@@ -10,3 +10,5 @@ CMD ["crond", "-l", "5", "-f" ]
 
 VOLUME ["/backup"]
 
+COPY profile /etc/profile
+
